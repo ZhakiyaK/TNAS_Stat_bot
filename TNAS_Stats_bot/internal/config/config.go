@@ -3,6 +3,7 @@ package config
 import (
 	"errors"
 	"log/slog"
+	"os"
 	"strconv"
 )
 
@@ -12,8 +13,9 @@ type Config struct {
 }
 
 func LoadConfig(logger *slog.Logger) (*Config, error) {
-	botToken := "7852675959:AAFTp2u66blhZrZ_AcUX1Zy-_RlXN8n4yug"
-	chatIDStr := "-1002548885029"
+
+	botToken := os.Getenv("BOT_TOKEN")
+	chatIDStr := os.Getenv("CHAT_ID")
 
 	if botToken == "" || chatIDStr == "" {
 		logger.Error("Необходимые переменные окружения отсутствуют", "BOT_TOKEN", botToken, "CHAT_ID", chatIDStr)

@@ -22,7 +22,7 @@ func parseAvail(output string) (string, error) {
 		}
 
 		// Проверяем что это нужная точка монтирования
-		if fields[5] == "/Volume3" {
+		if fields[5] == "/Volume2" || fields[5] == "/Volume3" {
 			return fields[3], nil
 		}
 	}
@@ -53,7 +53,7 @@ func SSHClient(ip string, port int, user, password string) (string, error) {
 	}
 	defer session.Close()
 
-	output, err := session.CombinedOutput("df -h /Volume3")
+	output, err := session.CombinedOutput("df -h")
 	if err != nil {
 		return "", fmt.Errorf("ошибка команды: %v", err)
 	}

@@ -14,11 +14,31 @@ import (
 	"tg_bot/internal/config"
 	"tg_bot/internal/entities"
 	"tg_bot/internal/usecases"
+
+	"github.com/joho/godotenv"
 )
+
+func setupLogger() *slog.Logger {
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
+		Level: slog.LevelInfo,
+	}))
+	return logger
+}
 
 func main() {
 	// Инициализация логгера
-	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
+	//logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
+
+	logger := setupLogger()
+
+	if err := godotenv.Load(".env"); err != nil {
+		log.Fatal(err)
+	}
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env:", err)
+	}
 
 	// Загрузка конфигурации
 	cfg, err := config.LoadConfig(logger)
@@ -37,33 +57,41 @@ func main() {
 
 	ip := "192.168.10.15"
 	port := 9222
-	user := "TNAS-12E5"
-	password := "Zaq12wsx"
+	user := os.Getenv("USER")
+	password := os.Getenv("PASSWORD")
 
 	avail, err := usecases.SSHClient(ip, port, user, password)
 	//avail, err := SSHClient(ip, port, user, password)
 
 	// Формируем статус
-	status := "Не подключен"
+	status := "Не подключен⛔️"
 	if err == nil {
-		status = "Подключен"
+		status = "Подключен✅"
 	} else {
 		log.Printf("Детали ошибки: %v", err) // Логируем ошибку для отладки
 	}
 
 	// Форматируем вывод
-	var output string
-	output = fmt.Sprintf("Статус: %s\n", status)
+	var output, output1 string
+	date := time.Now().Format("02.01.2006")
+	time := time.Now().Format("15:04")
+	min := "100G"
+
+	//availMemory, err := strconv.Atoi(avail)
+	if min > avail {
+		output1 += fmt.Sprintf("\n❗️❗️❗️Осталось мало место. Поменяйте диск")
+	}
+
+	output = fmt.Sprintf("Информация по TNAS:\n\nДата: %s\nВремя: %s\nСтатус: %s\n", date, time, status)
 	if avail != "" {
-		output += fmt.Sprintf("Осталось места: %s\n", avail)
+		output += fmt.Sprintf("Осталось места: %s\n%s\n", avail, output1)
 	} else {
 		fmt.Println("Осталось места: недоступно")
 	}
-	hello := "🟢 Бот TNAS Stat Bot запущен и готов к работе!\n"
-	todaysDate := time.Now().Format("02.01.2006 15:04\n")
+
 	// Отправка сообщения при запуске
 	ctx := context.Background()
-	if err := tgAdapter.SendMessage(ctx, todaysDate+hello+output); err != nil {
+	if err := tgAdapter.SendMessage(ctx, output); err != nil {
 		logger.Error("Ошибка отправки стартового сообщения", "error", err)
 	} else {
 		logger.Info("Стартовое сообщение отправлено")
