@@ -33,6 +33,6 @@ func (s *StatsService) GetStorageStatus() (string, string) {
 			"port", s.cfg.TNASPort)
 		return "Не подключен⛔️", "недоступно"
 	}
-
+	s.logger.Info("Успешно получен статус хранилища", "avail", avail)
 	return "Подключен✅", avail
 }

@@ -16,6 +16,7 @@ func NewTelegramAdapter(botToken string, chatID int64) (*TelegramAdapter, error)
 	if err != nil {
 		return nil, err
 	}
+	bot.Debug = true
 
 	return &TelegramAdapter{
 		bot:    bot,
