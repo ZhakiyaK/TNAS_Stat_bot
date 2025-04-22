@@ -82,12 +82,6 @@ func (b *Bot) sendStartupMessage(ctx context.Context) {
 	if err := b.tgAdapter.SendMessage(ctx, message); err != nil {
 		b.logger.Error("Failed to send startup status", "error", err)
 	}
-
-	// Дополнительно отправляем сообщение о запуске
-	startupMsg := usecases.GenerateStartupMessage()
-	if err := b.tgAdapter.SendMessage(ctx, startupMsg); err != nil {
-		b.logger.Error("Failed to send startup notification", "error", err)
-	}
 }
 
 func (b *Bot) sendShutdownMessage(ctx context.Context) {
