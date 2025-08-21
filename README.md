@@ -50,7 +50,9 @@ go build -o tnas-bot cmd/main.go
 ```text
 TNAS_Stat_Bot/
 ├── cmd/
-│   └── main.go                 # Точка входа в приложение
+│   └── bot/
+│   │   └── bot.go
+│   └── main.go                # Точка входа в приложение
 ├── internal/
 │   ├── adapters/
 │   │   └── telegram_adapter.go # Адаптер для работы с Telegram API
