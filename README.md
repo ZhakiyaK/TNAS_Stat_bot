@@ -50,7 +50,7 @@ go build -o tnas-bot cmd/main.go
 ```text
 TNAS_Stat_Bot/
 ├── cmd/
-│   └── bot/
+│   ├── bot/
 │   │   └── bot.go
 │   └── main.go                # Точка входа в приложение
 ├── internal/
@@ -64,7 +64,10 @@ TNAS_Stat_Bot/
 │   │   └── api.go              # Интерфейсы внешних систем
 │   └── usecases/
 │       ├── get_stats.go        # Получение статистики через SSH
-│       └── send_stats.go       # Отправка статистики
+│       ├── helpers.go          # Вспомогательные функции
+│       ├── message_generator.go # Генератор сообщений
+│       ├── send_stats.go       # Отправка статистики
+│       └── stats_service.go    # Сервис работы со статистикой
 ├── go.mod
 ├── go.sum
 └── .env.example               # Пример файла конфигурации
