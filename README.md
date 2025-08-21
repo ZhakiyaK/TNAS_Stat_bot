@@ -20,7 +20,20 @@ Telegram бот для мониторинга состояния сетевог�
 
 ## Установка и настройка
 
+
 1. Клонируйте репозиторий:
 ```bash
 git clone https://github.com/ZhakiyaK/TNAS_Stat_bot
 cd TNAS_Stat_Bot
+```
+2. Установите зависимости:
+```bash
+go mod download
+```
+3. Создайте файл .env в корне проекта:
+```env
+BOT_TOKEN=your_telegram_bot_token
+CHAT_ID=your_chat_id
+USER=ssh_username
+PASSWORD=ssh_password
+```
