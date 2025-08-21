@@ -24,6 +24,7 @@ Telegram бот для мониторинга состояния сетевог�
 ```bash
 git clone (https://github.com/ZhakiyaK/TNAS_Stat_bot)
 cd TNAS_Stat_Bot
+```
 
 2. Установите зависимости:
 ```bash
